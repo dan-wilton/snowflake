@@ -6,7 +6,7 @@
 from dataclasses import dataclass
 from time import time
 from typing import Optional
-from datetime import datetime, timedelta, tzinfo
+from datetime import datetime as dt, timedelta, tzinfo
 
 __all__ = ('Snowflake', 'SnowflakeGenerator', 'MAX_TS', 'MAX_INSTANCE', 'MAX_SEQ')
 
@@ -22,7 +22,7 @@ class Snowflake:
     epoch: int = 0
     seq: int = 0
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         if self.epoch < 0:
             raise ValueError("epoch must not be negative!")
 
@@ -53,11 +53,11 @@ class Snowflake:
         return self.milliseconds / 1000
 
     @property
-    def datetime(self) -> datetime:
-        return datetime.utcfromtimestamp(self.seconds)
+    def datetime(self) -> dt:
+        return dt.utcfromtimestamp(self.seconds)
 
-    def datetime_tz(self, tz: Optional[tzinfo] = None) -> datetime:
-        return datetime.fromtimestamp(self.seconds, tz=tz)
+    def datetime_tz(self, tz: Optional[tzinfo] = None) -> dt:
+        return dt.fromtimestamp(self.seconds, tz=tz)
 
     @property
     def timedelta(self) -> timedelta:
@@ -108,7 +108,7 @@ class SnowflakeGenerator:
     def epoch(self) -> int:
         return self._epo
 
-    def __iter__(self):
+    def __iter__(self) -> 'SnowflakeGenerator':
         return self
 
     def __next__(self) -> Optional[int]:

@@ -47,10 +47,25 @@ dev = [
     "pytest~=8.0.2",
     "ubump~=0.1.15; python_version >= '3.11'",
     "requests>=2.31.0",
+    "mypy>=1.11.2",
+    "types-requests>=2.32.0.20240712",
 ]
+
+[tool.pytest.ini_options]
+pythonpath = "src"
 
 [tool.ubump]
 template = "v${major}.${minor}.${patch}"
 message = "Bump to ${version}"
 tag = true
 files = ["src/snowflake/__init__.py"]
+
+[tool.mypy]
+strict = true
+show_error_context = true
+disallow_untyped_defs = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+check_untyped_defs = true
+disallow_subclassing_any = true
+exclude = ["^tests/"]

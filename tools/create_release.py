@@ -3,7 +3,7 @@ import sys
 import requests
 
 
-def create_release(token: str, repo: str, release: str, body: str):
+def create_release(token: str, repo: str, release: str, body: str) -> None:
     response = requests.post(f"https://api.github.com/repos/{repo}/releases",
                              headers={"Authorization": f"Bearer {token}"},
                              json={"tag_name": release, "name": release, "body": body})
@@ -13,7 +13,7 @@ def create_release(token: str, repo: str, release: str, body: str):
         sys.exit(-1)
 
 
-def main():
+def main() -> None:
     try:
         token, repo, release, body_file = sys.argv[1:]
     except ValueError:
